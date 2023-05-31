@@ -1,9 +1,11 @@
+const userCtrl = require("../controllers/user");
 const express = require("express");
 
 const router = express.Router();
 
-router.get("/users",(req,res)=>{
-    res.json("This is a user router")
-})
+router.get("/users", userCtrl.getUsers);
+router.get("/user/:id", userCtrl.getOneUser);
+router.delete("/deleteUser/:id",userCtrl.deleteUser);
+router.put("/updateUser/:id", userCtrl.updateUser);
 
 module.exports = router;

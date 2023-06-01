@@ -14,27 +14,22 @@ function BugForm() {
     const [image2, setImg2] = useState(null);
 
     const upload = async e=>{
-        e.preventDefault()
         try{
             const formData = new FormData();
-            formData.append("file", image1)
+            formData.append("file", image1);
             const res = await axios.post(" http://localhost:8000/upload", formData)
-            setImg1(res.data)
-
+            return res.data;
         }catch(err){
             console.log(err);
         }
     }
 
     const upload1 = async e=>{
-        e.preventDefault()
         try{
             const formData = new FormData();
             formData.append("file", image2)
             const res = await axios.post(" http://localhost:8000/upload", formData)
-            console.log(res.data)
-            setImg2(res.data)
-
+            return res.data;
         }catch(err){
             console.log(err);
         }
@@ -45,8 +40,13 @@ function BugForm() {
 
     const handleSubmit = async e=>{
         e.preventDefault();
+        const imgUrl = await upload();
+        const imgUrl1 = await upload1();
         try{
-            await axios.post("http://localhost:8000/postBug", {...value, ...image1, ...image2});
+            await axios.post("http://localhost:8000/postBug",
+             {...value, 
+             image1: image1 ? imgUrl: "",
+             image2: image2 ? imgUrl1 : ""});
 
             alert("Bugs added successfully");
 
@@ -89,28 +89,29 @@ function BugForm() {
 <ul class="w-48 text-sm font-medium text-gray-900 bg-white border border-slate-200 rounded-lg  dark:border-gray-600">
     <li class="w-full border-b border-slate-200 rounded-t-lg dark:border-gray-600">
         <div class="flex items-center pl-3">
-            <input id="low-priority" type="radio" value="" name='priority' class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" onChange={handleChange}/>
+            <input id="low-priority" type="radio" value="low" name='priority' class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" onChange={handleChange}/>
             <label for="low-priority" class="w-full py-3 ml-2 text-sm font-medium text-gray-900">Low</label>
         </div>
     </li>
     <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
         <div class="flex items-center pl-3">
-            <input id="medium-priority" type="radio" value="" name='priority' class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" onChange={handleChange}/>
+            <input id="medium-priority" type="radio" value="medium" name='priority' class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" onChange={handleChange}/>
             <label for="medium-priority" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 ">Medium</label>
         </div>
     </li>
     <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
         <div class="flex items-center pl-3">
-            <input id="high-priority" type="radio" value="" name='priority' class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" onChange={handleChange}/>
+            <input id="high-priority" type="radio" value="high" name='priority' class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" onChange={handleChange}/>
             <label for="high-priority" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 ">High</label>
         </div>
     </li>
 </ul>
 
-<label class="block mb-2 text-xl font-medium text-slate-700" type="file" name="file" for="file_input" onChange={upload}>Screenshot 1</label>
-<input class="block w-full text-sm text-slate-900 border border-slate-300 rounded-lg cursor-pointer bg-slate-50 focus:outline-none" id="file_input" type="file" onChange={e=>setImg1(e.target.files[0])}></input>
-<label class="block mb-2 text-xl font-medium text-slate-700" type="file" nam="file" for="file_input" onChange={upload1}>Screenshot 2</label>
-<input class="block w-full text-sm text-slate-900 border border-slate-300 rounded-lg cursor-pointer bg-slate-50 focus:outline-none" id="file_input" type="file" onChange={e=>setImg2(e.target.files[0])}></input>
+<label class="block mb-2 text-xl font-medium text-slate-700" type="file" name="image1" for="file_input" >Screenshot 1</label>
+<input class="block w-full text-sm text-slate-900 border border-slate-300 rounded-lg cursor-pointer bg-slate-50 focus:outline-none" id="file" type="file"
+ name="image1" onChange={(e) => setImg1(e.target.files[0])}></input>
+<label class="block mb-2 text-xl font-medium text-slate-700" type="file" name="image2" for="file_input" >Screenshot 2</label>
+<input class="block w-full text-sm text-slate-900 border border-slate-300 rounded-lg cursor-pointer bg-slate-50 focus:outline-none" id="file" type="file" name='image2' onChange={(e)=> setImg2(e.target.files[0])}></input>
 
 <label for="browser" class="block mb-2 text-xl font-medium text-slate-700">Bug status</label>
        <select id="browser" name='status' class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" onChange={handleChange}>

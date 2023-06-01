@@ -18,15 +18,15 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
       cb(null, Date.now()+file.originalname)
-    }
-  })
+    },
+  });
   
 const upload = multer({ storage})
 
 app.post('/upload', upload.single('file'),function(req,res){
     const file = req.file;
-    res.status(200).json(file.filename)
-})
+    res.status(200).json(file.filename);
+});
 
 const userRoute = require('./routes/users')
 app.use('/', userRoute)

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from "react-router-dom";
 
 const BugRecord = () => {
-    const [bug, setBug] = useState([14]);
+    const [bug, setBug] = useState([]);
     const [refresh, setRefresh] = useState(false);
     const {id} = useParams();
     const getData = async(e)=>{

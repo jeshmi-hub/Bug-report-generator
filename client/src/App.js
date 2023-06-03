@@ -8,6 +8,9 @@ import BugRecord from "./components/BugRecord";
 import BugRecords from "./components/BugRecords";
 import AllBugs from "./components/AllBugs";
 import UpdateBug from "./components/UpdateBug";
+import AllUsers from "./components/AllUsers";
+import UpdateUser from "./components/UpdateUser";
+import UserProfile from "./components/UserProfile";
 
 
 function App() {
@@ -23,6 +26,9 @@ function App() {
       <Route path="/bugRecords" element={<BugRecords/>}/>
       <Route path="/allBugs" element={<AllBugs/>}/>
       <Route path="/updateBug/:id" element={<UpdateBug/>}/>
+      <Route path="/allUsers" element={<AllUsers/>}/>
+      <Route path="/updateUser/:id" element={<UpdateUser/>}/>
+      <Route path="/userProfile/:id" element={<UserProfile/>}/>
     </Routes>
     </BrowserRouter>
     </>

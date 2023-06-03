@@ -45,19 +45,19 @@ function UpdateBug() {
         const imgUrl = await upload();
         const imgUrl1 = await upload1();
         try{
-            await axios.put(` http://localhost:8000/updateBug/${id}`,
+            await axios.put(`http://localhost:8000/updateBug/${id}`,
              {...value, 
              image1: image1 ? imgUrl: "",
              image2: image2 ? imgUrl1 : ""});
 
-            alert("Bugs added successfully");
+            alert("Bugs updated successfully");
 
         }catch(err){
             alert(err.response.data);
         }
     }
 
-    const loadUserData = async(e)=>{
+    const loadBugData = async(e)=>{
       console.log(id)
       const response = await axios.get(`http://localhost:8000/bug/${id}`)
       setValue(response.data[0]);
@@ -65,7 +65,7 @@ function UpdateBug() {
     }
 
     useEffect(()=>{
-      loadUserData();
+      loadBugData();
     },[])
   return (
     <>
@@ -124,7 +124,7 @@ function UpdateBug() {
         <label for="message" class="block mb-2 text-xl font-medium text-slate-700 text-slate-700">Issue Description</label>
         <textarea id="message" name='description' onChange={handleChange} value={value.description} rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500" placeholder="Write issue description..."></textarea>
         <label for="operating-systems" class="block mb-2 text-xl font-medium text-slate-700 text-slate-700">Operating system</label>
-        <select id="operating-systems" name='system' onChange={handleChange} class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500">
+        <select id="operating-systems"  value={value.system}  name='system' onChange={handleChange} class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500">
         <option selected>Choose an operating system</option>
         <option>Windows 10</option>
         <option>Windows 11</option>
@@ -132,8 +132,8 @@ function UpdateBug() {
         <option>Linux</option>
         </select>
         <label for="browser" class="block mb-2 text-xl font-medium text-slate-700 text-slate-700">Browser</label>
-       <select id="browser" name='browser' onChange={handleChange} class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500">
-       <option selected>Choose a browser</option>
+       <select id="browser"  value={value.browser} name='browser' onChange={handleChange} class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500">
+       <option  selected>Choose a browser</option>
        <option>Microsoft Edge</option>
        <option>Chrome</option>
        <option>Brave</option>
@@ -171,13 +171,13 @@ function UpdateBug() {
 <input class="block w-full text-sm text-slate-900 border border-slate-300 rounded-lg cursor-pointer bg-slate-50 focus:outline-none" id="file" type="file" name='image2' onChange={(e)=> setImg2(e.target.files[0])}></input>
 
 <label for="browser" class="block mb-2 text-xl font-medium text-slate-700">Bug status</label>
-       <select id="browser" name='status' class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" onChange={handleChange}>
+       <select id="browser" name='status' value={value.status} class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" onChange={handleChange}>
        <option selected>In queue</option>
        <option>Processing</option>
        <option>Completed</option>
        </select>
        <div class="flex justify-center p-2">
-                <button class="bg-sky-600 p-2 hover:bg-sky-400 text-xl rounded-md text-white">Generator Bug Report</button>
+                <button class="bg-sky-600 p-2 hover:bg-sky-400 text-xl rounded-md text-white">Update Bug</button>
             </div>
         </form>
       </div>

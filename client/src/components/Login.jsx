@@ -21,6 +21,7 @@ const handleSubmit = async e =>{
     e.preventDefault();
     try{
         await login(inputs);
+        alert("logged in successfully");
         navigate("/")
     }catch(err){
         alert(err.response.data);
